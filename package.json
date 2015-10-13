@@ -20,16 +20,9 @@
   },
   "homepage": "https://github.com/MysticDoll/daibutsu",
   "devDependencies": {
-    "browserify": "^11.1.0",
-    "coffee-script": "^1.10.0",
-    "coffeeify": "^1.1.0",
     "gulp": "^3.9.0",
     "gulp-open": "^1.0.0",
-    "gulp-rename": "^1.2.2",
-    "gulp-uglify": "^1.4.1",
-    "gulp-watch": "^4.3.5",
     "http": "0.0.0",
-    "url": "^0.11.0",
-    "vinyl-source-stream": "^1.1.0"
+    "url": "^0.11.0"
   }
 }
