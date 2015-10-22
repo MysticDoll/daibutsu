@@ -5,20 +5,27 @@
     body {
       margin: 0;
     }
+    iframe{
+      border: 0;
+    }
     /*
       forked http://on-ze.com/archives/648 
     */ 
+    iframe.pause {
+      animation-play-state: paused;
+      -webkit-animation-play-state: paused;
+    }
     .marquee {
       overflow:hidden;
       position:relative;
     }
 
-    .marquee embed:after {
+    .marquee iframe:after {
       content:"";
       white-space:nowrap;
     }
     
-    .marquee embed {
+    .marquee iframe {
       margin:0;
       padding: 0 0 0 100%;
       white-space:nowrap;
@@ -76,12 +83,12 @@
       position:relative;
     }
 
-    .marqueeR embed:after {
+    .marqueeR iframe:after {
       content:"";
       white-space:nowrap;
     }
     
-    .marqueeR embed {
+    .marqueeR iframe {
       margin:0;
       padding: 0 0 0 100%;
       white-space:nowrap;
@@ -139,12 +146,12 @@
       position:relative;
     }
 
-    .marqueeD embed:after {
+    .marqueeD iframe:after {
       content:"";
       white-space:nowrap;
     }
     
-    .marqueeD embed {
+    .marqueeD iframe {
       margin:0;
       white-space:nowrap;
       	-webkit-animation-name:marqueeD;
@@ -201,12 +208,12 @@
       position:relative;
     }
 
-    .marqueeU embed:after {
+    .marqueeU iframe:after {
       content:"";
       white-space:nowrap;
     }
     
-    .marqueeU embed {
+    .marqueeU iframe {
       margin:0;
       white-space:nowrap;
       	-webkit-animation-name:marqueeU;
@@ -255,18 +262,82 @@
       from   { transform: translateY(100%);}
       99%,to { transform: translateY(-100%);}
     }
+    /*
+      rotate
+    */
+    .rotate {
+      overflow:hidden;
+      position:relative;
+    }
+
+    .rotate iframe:after {
+      content:"";
+      white-space:nowrap;
+    }
+    
+    .rotate iframe {
+      margin:0;
+      white-space:nowrap;
+      	-webkit-animation-name:rotate;
+      	-webkit-animation-timing-function:linear;
+      	-webkit-animation-duration:2s;
+      	-webkit-animation-iteration-count:infinite;
+      	-moz-animation-name:rotate;
+      	-moz-animation-timing-function:linear;
+      	-moz-animation-duration:2s;
+      	-moz-animation-iteration-count:infinite;
+      	-ms-animation-name:rotate;
+      	-ms-animation-timing-function:linear;
+      	-ms-animation-duration:2s;
+      	-ms-animation-iteration-count:infinite;
+      	-o-animation-name:rotate;
+      	-o-animation-timing-function:linear;
+      	-o-animation-duration:2s;
+      	-o-animation-iteration-count:infinite;
+      	animation-name:rotate;
+      	animation-timing-function:linear;
+      	animation-duration:2s;
+      	animation-iteration-count:infinite;
+    }
+
+    @-webkit-keyframes rotate {
+      from   { -webkit-transform: rotate(0deg);}
+      99%,to { -webkit-transform: rotate(360deg);}
+    }
+
+    @-moz-keyframes rotate {
+      from   { -moz-transform: rotate(0deg);}
+      99%,to { -moz-transform: rotate(360deg);}
+    }
+
+    @-ms-keyframes rotate {
+      from   { -ms-transform: rotate(0deg);}
+      99%,to { -ms-transform: rotate(360deg);}
+    }
+
+    @-o-keyframes rotate {
+      from   { -o-transform: rotate(0deg);}
+      99%,to { -o-transform: rotate(360deg);}
+    }
+
+    @keyframes rotate {
+      from   { transform: rotate(0deg);}
+      99%,to { transform: rotate(360deg);}
+    }
   </style>
   
 </head>
 <body>
+  <p style="position: fixed; right: 0; top: 0; margin: 0 0 0 0;">クリック or Ctrl + Enterで一時停止/再生します</p>
   <select id="vector" style="position: fixed; top: 0; left:0; z-index: 100;">
     <option value="">Left(Ctrl+Left)</option>
     <option value="R">Right(Ctrl+Right)</option> 
     <option value="U">Up(Ctrl+Up)</option> 
     <option value="D">Down(Ctrl+Down)</option> 
+    <option value="rotate">Spin(Ctrl+Space)</option> 
   </select>
   <div class="marquee" id="daibutsu-container">
-    <embed src="./daibutsu.svg" style="width: 100%; height: 100%;"></embed>
+    <iframe src="./daibutsu.svg" style="width: 100%; height: 100%;"></iframe>
   </div>
   <script type="text/javascript">
     function refrashDaibutsu(){
@@ -275,16 +346,23 @@
       for(var i=0;i<l;i++){
         elm.removeChild(elm.childNodes[0]);
       }
-      var emb = document.createElement('embed');
-      emb.src = "./daibutsu.svg";
-      emb.style.width = "100%";
-      emb.style.height = "100%";
-      elm.appendChild(emb);
+      var iframe = document.createElement('iframe');
+      iframe.src = "./daibutsu.svg";
+      iframe.style.width = "100%";
+      iframe.style.height = "100%";
+      elm.appendChild(iframe);
+      iframe.contentWindow.addEventListener("click", function(){
+        this.parent.document.getElementsByTagName("iframe")[0].classList.toggle("pause");
+        this.parent.focus();
+      });
     }
     document.getElementById("vector").onchange = function(e){
       var s = e.target || e.srcElement;
       var elm = document.getElementById('daibutsu-container');
       elm.className = 'marquee' + s.value;
+      elm.addEventListener("click",function(){
+        this.classList.toggle("pause");
+      });
       refrashDaibutsu();
     }
     document.onkeydown = function(e){
@@ -312,10 +390,25 @@
             document.getElementById('vector').value = "D";
             refrashDaibutsu();
             break;
+          case 32:
+            elm.className = "rotate";
+            document.getElementById('vector').value = "rotate";
+            refrashDaibutsu();
+            break;
+          case 13:
+            document.getElementsByTagName("iframe")[0].classList.toggle("pause");
+            break;
           default:
             break;
         }
       }
     }
+    document.getElementsByTagName("iframe")[0].contentWindow.addEventListener("click", function(){
+      this.parent.document.getElementsByTagName("iframe")[0].classList.toggle("pause");
+      this.parent.focus();
+    });
+    document.getElementById("daibutsu-container").addEventListener("click", function(){
+      this.getElementsByTagName("iframe")[0].classList.toggle("pause");
+    });
   </script>
 </body>
