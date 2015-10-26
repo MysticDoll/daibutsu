@@ -360,6 +360,7 @@
       var s = e.target || e.srcElement;
       var elm = document.getElementById('daibutsu-container');
       elm.className = 'marquee' + s.value;
+      if(s.value === "rotate") elm.className = s.value;
       elm.addEventListener("click",function(){
         this.classList.toggle("pause");
       });
