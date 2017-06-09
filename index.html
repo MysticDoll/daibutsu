@@ -388,6 +388,38 @@
         this.parent.document.getElementsByTagName("iframe")[0].classList.toggle("pause");
         this.parent.focus();
       });
+      
     }
+        var loader = function() {
+      var v = location.hash.substring(1);
+      var vec = document.getElementById("vector");
+      var elm = document.getElementById('daibutsu-container');
+      switch(v) {
+        case "Right":
+          vec.value = v[0];
+          elm.className = "marqueeR";
+          break;
+        case "Left":
+          vec.value = "";
+          elm.className = "marquee";
+          break;
+        case "Up":
+          vec.value = v[0];
+          elm.className = "marqueeU";
+          break;
+        case "Down":
+          vec.value = v[0];
+          elm.className = "marqueeD";
+          break;
+        case "Spin":
+          vec.value = "rotate";
+          elm.className = "rotate";
+          break;
+        default:
+          break;
+      }
+    };
+    window.addEventListener("DOMContentLoaded",loader);
+    window.addEventListener("hashchange", loader);
   </script>
 </body>
