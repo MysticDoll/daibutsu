@@ -336,6 +336,25 @@
       var elm = document.getElementById('daibutsu-container');
       elm.className = 'marquee' + s.value;
       if(s.value === "rotate") elm.className = s.value;
+      switch(s.value) {
+        case "":
+          location.hash = "Left";
+          break;
+        case "R":
+          location.hash = "Right";
+          break;
+        case "U":
+          location.hash = "Up";
+          break;
+        case "D":
+          location.hash = "Down";
+          break;
+        case "rotate":
+          location.hash = "Spin";
+          break;
+        default:
+          break;
+      }
       refrashDaibutsu();
     }
     document.onkeydown = function(e){
@@ -345,26 +364,31 @@
         switch(e.keyCode){
           case 37:
             elm.className = "marquee";
+            location.hash = "Left";
             refrashDaibutsu();
             document.getElementById('vector').value = "";
             break;
           case 38:
             elm.className = "marqueeU";
+            location.hash = "Up";
             document.getElementById('vector').value = "U";
             refrashDaibutsu();
             break;
           case 39:
             elm.className = "marqueeR";
             document.getElementById('vector').value = "R";
+            location.hash = "Right";
             refrashDaibutsu();
             break;
           case 40:
             elm.className = "marqueeD";
+            location.hash = "Down";
             document.getElementById('vector').value = "D";
             refrashDaibutsu();
             break;
           case 32:
             elm.className = "rotate";
+            locatin.hash = "Spin";
             document.getElementById('vector').value = "rotate";
             refrashDaibutsu();
             break;
